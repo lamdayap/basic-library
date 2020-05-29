@@ -1,0 +1,10 @@
+body {
+    position: relative;
+    margin-top: 56px;
+}
+
+.card-header {
+    background: none;
+    border-bottom: none;
+}
+
