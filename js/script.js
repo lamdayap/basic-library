@@ -3,7 +3,7 @@ let booksLibrary = [];
 function render(books) {
   if (Array.isArray(books)) {
     for (i = 0; i < books.length; i++) {
-      const cardDeck = document.querySelector(".row-cols-3")
+      const cardDeck = document.querySelector(".container")
       cardDeck.innerHTML += `<div class="card book-${i} mt-3 mb-3" data-index="${i}">
       <div class="card-header text-right"></div>
           <div class="card-body">
@@ -24,9 +24,9 @@ function render(books) {
       }
     }
   } else if (typeof books == 'object') {
-    let i = booksLibrary.length
-    const container = document.querySelector(".row-cols-3")
-    container.innerHTML += `<div class="card book-${i} mt-3 mb-3">
+    let i = booksLibrary.length-1
+    const container = document.querySelector(".container")
+    container.innerHTML += `<div class="card book-${i} mt-3 mb-3" data-index="${i}">
     <div class="card-header text-right"></div>
         <div class="card-body">
           <h5 class="card-title"></h5>
@@ -47,6 +47,7 @@ function render(books) {
   }
 }
 
+// Add new books to the Library
 document.querySelector('button').addEventListener('click', () => {
   let inputTitle = document.getElementById("inputTitle")
   let inputAuthor = document.getElementById("inputAuthor")
@@ -65,11 +66,13 @@ document.querySelector('button').addEventListener('click', () => {
   }
 })
 
+// Remove books from the Library or Mark them as read depending on button clicked
 document.querySelector(".container").addEventListener('click', () => {
   if (event.target.className == 'remove-button') {
     event.target.parentNode.parentNode.remove()
   } else if (event.target.className == 'read-button') {
     const arrIndex = event.target.parentNode.parentNode.parentNode.dataset.index
+    console.log(arrIndex)
     booksLibrary[arrIndex].markAsRead()
     if (booksLibrary[arrIndex].read == 'read') {
       event.target.parentNode.parentNode.parentNode.firstElementChild.innerHTML = '<span class="badge badge-success">Read</span>'
@@ -78,6 +81,7 @@ document.querySelector(".container").addEventListener('click', () => {
   }
 })
 
+// Books constructor
 function Book(title, author, pages, read) {
   this.title = title
   this.author = author
@@ -91,24 +95,16 @@ function Book(title, author, pages, read) {
   }
 }
 
-const book1 = new Book('Harry Potter', 'JK Rowling', 987, 'read')
-const book2 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'unread')
-const book3 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'read')
-const book4 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'read')
-const book5 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'unread')
-const book6 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'read')
-const book7 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'unread')
-const book8 = new Book('Harry Pooper', 'LMFAO Rowling', 987, 'unread')
-const book9 = new Book('Harry Pooper9', 'LMFAO Rowling9', 999, 'read')
+
+// Below are some example books to pre-fill the library
+const book1 = new Book('Harry Potter: The Philosopher\'s Stone', 'JK Rowling', 987, 'read')
+const book2 = new Book('Book2', 'Author 1', 987, 'unread')
+const book3 = new Book('Book3', 'Author 2', 987, 'read')
+const book4 = new Book('Book3', 'Author 3', 987, 'unread')
 
 book1.addToLibrary()
 book2.addToLibrary()
 book3.addToLibrary()
 book4.addToLibrary()
-book5.addToLibrary()
-book6.addToLibrary()
-book7.addToLibrary()
-book8.addToLibrary()
-book9.addToLibrary()
 
 render(booksLibrary)
